@@ -5,21 +5,41 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 public class Question {
-    private static int questionCounter = 0;
     private String question;
     private List<String> answerList;
     private int correctAnswerIndex;
-    private int questionID;
 
     public Question(String question, int correctAnswer, String... answers){
         setQuestion(question);
         setAnswer(answers, correctAnswer);
-        this.setQuestionID();
+    }
+
+    public boolean isAnswerCorrect(int answerIndex){
+        return (this.correctAnswerIndex == answerIndex);
     }
     
-    private void setQuestionID() {
-        this.questionID = questionCounter++;
+    public String getQuestion(){
+        return this.question;
+    }
+
+    public String getAnswerOptions(){
+        String ret = ""; 
+        for (int i = 0; i < answerList.size(); i++)
+            ret += "\n(" + (i + 1) + ") " + answerList.get(i);
+        
+        // Schaff ich nicht...
+        // String a = answerList.stream().map(an -> an + " Hallo").toString();
+        return ret;
+    }
+
+    // Only for testing purposes!
+    public String getAnswer(int answerID){
+        if (answerID < 0 || answerID > answerList.size())
+            throw new IllegalAnswerNoException();
+        else
+            return answerList.get(answerID);
     }
 
     private void setQuestion(String question){
@@ -32,13 +52,5 @@ public class Question {
         this.correctAnswerIndex = correctAnswer -1;
 
         answerList = Arrays.stream(answers).collect(Collectors.toCollection(ArrayList::new));
-    }
-
-    public String getQuestion(){
-        return this.question;
-    }
-
-    public String getCorrectAnswer(int questionID) {
-        return answerList.get(questionID);
     }
 }

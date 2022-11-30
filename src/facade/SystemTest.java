@@ -11,7 +11,8 @@ public class SystemTest {
         String A1 = "Hamburg";
         String A2 = "Berlin";
         String A3 = "München";
-        System game = new System(setQ, 2, A1, A2, A3);
+        Game game = new Game();
+        game.addQuestion(setQ, 2, A1, A2, A3);
         String Q = game.getQuestion(0);
         assertEquals(setQ, Q);
     }
